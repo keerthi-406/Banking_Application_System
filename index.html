@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking Application System</title>
+    <style>
+        body
+        {
+            background-color: rgba(165, 42, 79, 0.871);
+            padding: 40px;
+            margin: 50px;
+            background-image: url('ATM.jpeg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            place-items: center;
+            display: inline;
+            height: 100vh;
+            margin: 0;
+        }
+        #but
+        {
+                margin: 10px;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                border: none;
+                border-radius: 5px;
+                background-color: #007bff;
+                color: white;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-height: fit-content;
+                
+
+            }
+           button:hover 
+           {
+                background-color: #b34500;
+            }
+    </style>
+</head>
+<body onload="loadBalance()">
+    <h1 style="background-color: beige;text-align:center">Types of transactions</h1>
+    <span id="but">
+    <button type="button" onclick="credit()">Credit</button>&nbsp&nbsp
+    &nbsp&nbsp&nbsp&nbsp&nbsp<button type="button" onclick="debit()">Debit</button>
+    &nbsp&nbsp
+    &nbsp&nbsp&nbsp&nbsp&nbsp<button type="button" onclick="chbal()">CheckBalance</button>
+    </span>
+    <p id="balance" style="background-color: cadetblue;color:black;text-align:center;font:300;visibility:hidden">Current Balance: ₹0</p>
+   <script>
+        var cb = 0; 
+        function loadBalance() {
+            let storedBalance = localStorage.getItem("atmBalance");
+            if (storedBalance !== null) {
+                cb = Number(storedBalance);
+                document.getElementById("balance").innerText = "Current Balance: ₹" + cb;
+            }
+        }
+
+        function updateBalanceUI() {
+            document.getElementById("balance").innerText = "Current Balance: ₹" + cb;
+            localStorage.setItem("atmBalance", cb); 
+        }
+
+        function credit() {
+            let bal = prompt("Enter the amount to be credited:");
+            
+            if (bal !== null && !isNaN(bal) && Number(bal) > 0) { 
+                cb += Number(bal);
+                updateBalanceUI();
+
+                alert("₹" + bal + " successfully credited!");
+            } else {
+                alert("Invalid amount entered!");
+            }
+        }
+
+        function debit() {
+            let deb = prompt("Enter the amount to be debited:");
+
+            if (deb !== null && !isNaN(deb) && Number(deb) > 0) { 
+                if (Number(deb) <= cb) 
+                { 
+                    cb -= Number(deb); 
+                    updateBalanceUI();
+
+                    alert("₹" + deb + " successfully debited!");
+                } else {
+                    alert("Insufficient balance! You have only ₹" + cb);
+                }
+            } else {
+                alert("Invalid amount entered!");
+            }
+        }
+        function chbal()
+        {
+            alert("Your total balance is: "+cb);
+        }
+    </script>
+</body>
+</html>
